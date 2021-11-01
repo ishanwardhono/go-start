@@ -1,12 +1,12 @@
 package handler
 
 import (
+	"app/database/repo"
+	"app/entity"
+	"app/module"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"sm-secret/database/repo"
-	"sm-secret/entity"
-	"sm-secret/module"
 
 	"github.com/gorilla/mux"
 )

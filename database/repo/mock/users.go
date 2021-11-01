@@ -5,8 +5,8 @@
 package mock_repo
 
 import (
+	entity "app/entity"
 	reflect "reflect"
-	entity "sm-secret/entity"
 
 	gomock "github.com/golang/mock/gomock"
 )

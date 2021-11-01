@@ -1,8 +1,8 @@
 package module
 
 import (
-	"sm-secret/database/repo"
-	"sm-secret/entity"
+	"app/database/repo"
+	"app/entity"
 )
 
 type UserModel struct {

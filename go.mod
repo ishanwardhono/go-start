@@ -1,4 +1,4 @@
-module sm-secret
+module app
 
 go 1.16
 

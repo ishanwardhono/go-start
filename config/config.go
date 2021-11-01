@@ -1,10 +1,10 @@
 package config
 
 import (
+	"app/env"
 	"fmt"
 	"io/ioutil"
 	"log"
-	"sm-secret/env"
 
 	"github.com/ghodss/yaml"
 )

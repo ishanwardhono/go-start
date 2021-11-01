@@ -1,8 +1,8 @@
 package repo
 
 import (
+	"app/entity"
 	"database/sql"
-	"sm-secret/entity"
 )
 
 type UserRepo interface {

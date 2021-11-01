@@ -1,10 +1,10 @@
 package database
 
 import (
+	"app/config"
 	"database/sql"
 	"fmt"
 	"log"
-	"sm-secret/config"
 
 	_ "github.com/lib/pq"
 )

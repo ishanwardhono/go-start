@@ -1,8 +1,8 @@
 package module
 
 import (
-	mock_repo "sm-secret/database/repo/mock"
-	"sm-secret/entity"
+	mock_repo "app/database/repo/mock"
+	"app/entity"
 	"testing"
 
 	"github.com/golang/mock/gomock"

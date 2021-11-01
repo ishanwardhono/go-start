@@ -1,12 +1,12 @@
 package main
 
 import (
+	"app/database"
+	"app/database/repo"
+	"app/handler"
 	"fmt"
 	"log"
 	"net/http"
-	"sm-secret/database"
-	"sm-secret/database/repo"
-	"sm-secret/handler"
 
 	"github.com/gorilla/mux"
 )
