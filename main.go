@@ -12,14 +12,10 @@ import (
 )
 
 func main() {
-	handleRequests()
-}
-
-func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
-	handler := handler.NewUserHandler(repo.NewUserRepo(database.NewDB()))
+	handler := handler.NewUserHandler(repo.NewUserRepo(database.GetDB()))
 	handler.RegisterHandlers(router)
-	defer database.NewDB().Close()
+	defer database.GetDB().Close()
 
 	fmt.Println("Starting localhost:8080 . . . ")
 	log.Fatal(http.ListenAndServe(":8080", router))
