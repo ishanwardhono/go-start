@@ -1,8 +1,8 @@
 package module
 
 import (
-	mock_repo "app/database/repo/mock"
 	"app/entity"
+	mock_repo "app/provider/database/repo/mock"
 	"testing"
 
 	"github.com/golang/mock/gomock"

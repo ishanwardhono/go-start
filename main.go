@@ -1,9 +1,9 @@
 package main
 
 import (
-	"app/database"
-	"app/database/repo"
 	"app/handler"
+	"app/provider/database"
+	"app/provider/database/repo"
 	"fmt"
 	"log"
 	"net/http"

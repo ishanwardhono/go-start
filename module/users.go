@@ -1,8 +1,8 @@
 package module
 
 import (
-	"app/database/repo"
 	"app/entity"
+	"app/provider/database/repo"
 )
 
 type UserModel struct {
