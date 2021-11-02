@@ -18,3 +18,7 @@ func GetEnv() string {
 	}
 	return env
 }
+
+func SetEnv(environment string) {
+	env = environment
+}

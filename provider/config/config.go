@@ -25,6 +25,8 @@ type Config struct {
 	DBUser     string
 	DBPassword string
 	DBName     string
+
+	LogFile string
 }
 
 func GetConfig() *Config {
@@ -55,7 +57,7 @@ func readConfigFile(cfg *Config, filename string) error {
 
 	err = yaml.Unmarshal(yamlFile, cfg)
 	if err != nil {
-		log.Printf("error in umarshalling env yaml file")
+		log.Fatal("error in umarshalling env yaml file")
 		return err
 	}
 	return nil
