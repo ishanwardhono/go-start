@@ -10,12 +10,40 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Handle(f func(ctx context.Context, w http.ResponseWriter, r *http.Request)) http.HandlerFunc {
-	return func(rw http.ResponseWriter, r *http.Request) {
+type response struct {
+	StatusCode   int
+	Data         interface{}
+	ErrorMessage string
+}
+
+func Handle(f func(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := log.ContextStory(r.Context())
+		//TODO: add context to logger
 		log.Info("Request: ", GetLogRequest(r))
-		f(ctx, rw, r)
+		result, err := f(ctx, w, r)
+		WriteResponse(w, r, result, err)
 	}
+}
+
+func WriteResponse(w http.ResponseWriter, r *http.Request, data interface{}, err error) {
+	w.Header().Add("Content-Type", "Application/json")
+	res := response{
+		Data:       data,
+		StatusCode: 200,
+	}
+
+	if err != nil {
+		//TODO: define error code
+		res.StatusCode = 400
+		res.ErrorMessage = err.Error()
+	}
+
+	byteData, err := json.Marshal(res)
+	if err != nil {
+		log.Error("Error marshalling response")
+	}
+	w.Write(byteData)
 }
 
 func GetLogRequest(r *http.Request) string {

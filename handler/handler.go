@@ -2,11 +2,10 @@ package handler
 
 import (
 	"app/entity"
+	"app/log"
 	"app/module"
 	"app/provider/database/repo"
 	"context"
-	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -28,44 +27,22 @@ func (uh *UserHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc("/user", Handle(uh.newUser)).Methods("POST")
 }
 
-func (uh *UserHandler) allUsers(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	users, err := uh.user.GetAllUser()
-	if err != nil {
-		fmt.Fprint(w, err.Error())
-		return
-	}
-	w.Header().Add("Content-Type", "Application/json")
-	encoder := json.NewEncoder(w)
-	encoder.Encode(users)
+func (uh *UserHandler) allUsers(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
+	return uh.user.GetAllUser()
 }
 
-func (uh *UserHandler) newUser(tx context.Context, w http.ResponseWriter, r *http.Request) {
+func (uh *UserHandler) newUser(tx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
 	var req entity.User
 
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&req)
+	err := ParseBody(r, &req)
 	if err != nil {
-		fmt.Fprintf(w, "can't parse request")
-		return
+		log.Error("Failed parse request")
+		return nil, err
 	}
 
-	err = uh.user.InsertUser(req)
-	if err != nil {
-		fmt.Fprint(w, err.Error())
-		return
-	}
-
-	fmt.Fprintf(w, "Success")
+	return uh.user.InsertUser(req)
 }
 
-func (uh *UserHandler) getUser(tx context.Context, w http.ResponseWriter, r *http.Request) {
-	queryParam := mux.Vars(r)
-	user, err := uh.user.GetUser(queryParam["name"])
-	if err != nil {
-		fmt.Fprint(w, err.Error())
-		return
-	}
-	w.Header().Add("Content-Type", "Application/json")
-	encoder := json.NewEncoder(w)
-	encoder.Encode(user)
+func (uh *UserHandler) getUser(tx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
+	return uh.user.GetUser(GetQueryParam(r, "name"))
 }

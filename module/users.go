@@ -13,8 +13,8 @@ func NewUserModel(repo repo.UserRepo) UserModel {
 	return UserModel{repo: repo}
 }
 
-func (m *UserModel) InsertUser(user entity.User) error {
-	return m.repo.InsertUser(user)
+func (m *UserModel) InsertUser(user entity.User) (string, error) {
+	return "", m.repo.InsertUser(user)
 }
 
 func (m *UserModel) GetAllUser() ([]entity.User, error) {
