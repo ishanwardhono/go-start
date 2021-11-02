@@ -8,14 +8,13 @@ import (
 	"app/provider/database"
 	"app/provider/database/repo"
 	"flag"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
 func main() {
-	environment := flag.String("envi", "", "set environment")
+	environment := flag.String("env", "", "set environment")
 	flag.Parse()
 	env.SetEnv(*environment)
 
@@ -27,6 +26,6 @@ func main() {
 	handler.RegisterHandlers(router)
 	defer database.GetDB().Close()
 
-	fmt.Println("Starting localhost:8080 . . . ")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Info("Server running port " + cfg.AppPort + " on " + env.GetEnv() + " . . . ")
+	log.Fatal(http.ListenAndServe(":"+cfg.AppPort, router))
 }
