@@ -4,6 +4,7 @@ import (
 	"app/entity"
 	"app/module"
 	"app/provider/database/repo"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -22,12 +23,12 @@ func NewUserHandler(repo repo.UserRepo) UserHandler {
 }
 
 func (uh *UserHandler) RegisterHandlers(router *mux.Router) {
-	router.HandleFunc("/users", uh.allUsers).Methods("GET")
-	router.HandleFunc("/user/{name}", uh.getUser).Methods("GET")
-	router.HandleFunc("/user", uh.newUser).Methods("POST")
+	router.HandleFunc("/users", Handle(uh.allUsers)).Methods("GET")
+	router.HandleFunc("/user/{name}", Handle(uh.getUser)).Methods("GET")
+	router.HandleFunc("/user", Handle(uh.newUser)).Methods("POST")
 }
 
-func (uh *UserHandler) allUsers(w http.ResponseWriter, r *http.Request) {
+func (uh *UserHandler) allUsers(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	users, err := uh.user.GetAllUser()
 	if err != nil {
 		fmt.Fprint(w, err.Error())
@@ -38,7 +39,7 @@ func (uh *UserHandler) allUsers(w http.ResponseWriter, r *http.Request) {
 	encoder.Encode(users)
 }
 
-func (uh *UserHandler) newUser(w http.ResponseWriter, r *http.Request) {
+func (uh *UserHandler) newUser(tx context.Context, w http.ResponseWriter, r *http.Request) {
 	var req entity.User
 
 	decoder := json.NewDecoder(r.Body)
@@ -57,7 +58,7 @@ func (uh *UserHandler) newUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Success")
 }
 
-func (uh *UserHandler) getUser(w http.ResponseWriter, r *http.Request) {
+func (uh *UserHandler) getUser(tx context.Context, w http.ResponseWriter, r *http.Request) {
 	queryParam := mux.Vars(r)
 	user, err := uh.user.GetUser(queryParam["name"])
 	if err != nil {
