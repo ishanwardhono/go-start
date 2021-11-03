@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"app/errors"
 	"app/log"
 	"context"
 	"net/http"
@@ -34,13 +35,17 @@ func WriteResponse(ctx context.Context, w http.ResponseWriter, r *http.Request, 
 	w.Header().Add("Content-Type", "Application/json")
 	res := response{
 		Data:       data,
-		StatusCode: 200,
+		StatusCode: http.StatusOK,
 	}
 
 	if err != nil {
-		//TODO: define error code
-		res.StatusCode = 400
-		res.ErrorMessage = err.Error()
+		if errs, ok := err.(*errors.Errs); ok {
+			res.StatusCode = errs.Code
+			res.ErrorMessage = errs.Error()
+		} else {
+			res.StatusCode = http.StatusInternalServerError
+			res.ErrorMessage = err.Error()
+		}
 	}
 
 	byteData, err := json.Marshal(res)

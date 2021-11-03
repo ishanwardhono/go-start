@@ -2,8 +2,9 @@ package users
 
 import (
 	"app/database/repo"
+	"app/errors"
 	"context"
-	"errors"
+	"net/http"
 )
 
 type getUser struct {
@@ -21,7 +22,7 @@ func (m *getUser) Execute(ctx context.Context) (interface{}, error) {
 
 func (m *getUser) Validate(ctx context.Context) error {
 	if m.Req == "" {
-		return errors.New("name is not exist")
+		return errors.New("name is not exist", http.StatusBadRequest)
 	}
 	return nil
 }

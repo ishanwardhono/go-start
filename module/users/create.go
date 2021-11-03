@@ -3,8 +3,9 @@ package users
 import (
 	"app/database/repo"
 	"app/entity"
+	"app/errors"
 	"context"
-	"errors"
+	"net/http"
 )
 
 type createUser struct {
@@ -21,12 +22,13 @@ func (m *createUser) Execute(ctx context.Context) (interface{}, error) {
 	return "", m.RepoUser.InsertUser(m.Req)
 }
 
+//TODO: create wrapper for validate
 func (m *createUser) Validate(ctx context.Context) error {
 	if m.Req.Name == "" {
-		return errors.New("name is mandatory")
+		return errors.New("name is mandatory", http.StatusBadRequest)
 	}
 	if m.Req.Email == "" {
-		return errors.New("email is mandatory")
+		return errors.New("email is mandatory", http.StatusBadRequest)
 	}
 	return nil
 }
