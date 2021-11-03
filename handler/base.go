@@ -25,7 +25,7 @@ func Handle(f func(ctx context.Context, w http.ResponseWriter, r *http.Request) 
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		ctx := log.ContextStory(r.Context())
-		log.Info(ctx, "Request: ", GetLogRequest(r))
+		log.Info(ctx, "HTTP Request: ", GetLogRequest(r))
 		result, err := f(ctx, w, r)
 		WriteResponse(ctx, w, r, result, err)
 	}

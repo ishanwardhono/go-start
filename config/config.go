@@ -26,7 +26,8 @@ type Config struct {
 	DBPassword string
 	DBName     string
 
-	LogFile string
+	MaxGraceStop int
+	LogFile      string
 }
 
 func GetConfig() *Config {
