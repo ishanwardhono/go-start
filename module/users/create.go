@@ -23,7 +23,6 @@ func (m *createUser) Execute(ctx context.Context) (interface{}, error) {
 	return "", m.RepoUser.InsertUser(m.Req)
 }
 
-//TODO: create wrapper for validate
 func (m *createUser) Validate(ctx context.Context) error {
 	var missingFields []string
 	if m.Req.Name == "" {
