@@ -29,8 +29,14 @@ func GetDB() *sql.DB {
 
 func NewDB() error {
 	cfg := config.GetConfig()
-	dbinfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
+	var dbinfo string
+	if cfg.DBName == "" {
+		dbinfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+			cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
+	} else {
+		dbinfo = fmt.Sprintf("host=%s port=%s dbname=%s sslmode=disable",
+			cfg.DBHost, cfg.DBPort, cfg.DBName)
+	}
 	newDB, err := sql.Open("postgres", dbinfo)
 	if err != nil {
 		log.Println("database error: ", err)

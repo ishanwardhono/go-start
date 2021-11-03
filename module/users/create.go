@@ -15,7 +15,6 @@ type createUser struct {
 }
 
 func (m *createUser) Execute(ctx context.Context) (interface{}, error) {
-	m.Validate(ctx)
 	err := m.Validate(ctx)
 	if err != nil {
 		return nil, err
