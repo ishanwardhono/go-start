@@ -1,8 +1,8 @@
 package provider
 
 import (
-	"app/provider/database"
-	"app/provider/database/repo"
+	"app/database"
+	"app/database/repo"
 )
 
 func GetUsersRepo() repo.UserRepo {

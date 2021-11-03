@@ -1,7 +1,7 @@
 package database
 
 import (
-	"app/provider/config"
+	"app/config"
 	"database/sql"
 	"fmt"
 	"log"

@@ -1,7 +1,7 @@
 package users
 
 import (
-	"app/provider/database/repo"
+	"app/database/repo"
 	"context"
 )
 

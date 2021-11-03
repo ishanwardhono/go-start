@@ -1,10 +1,10 @@
 package main
 
 import (
+	"app/config"
 	"app/env"
 	"app/log"
 	"app/provider"
-	"app/provider/config"
 	"context"
 	"flag"
 	"net/http"

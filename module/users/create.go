@@ -1,8 +1,8 @@
 package users
 
 import (
+	"app/database/repo"
 	"app/entity"
-	"app/provider/database/repo"
 	"context"
 	"errors"
 )

@@ -1,9 +1,9 @@
 package users
 
 import (
+	"app/database/repo"
 	"app/entity"
 	"app/module"
-	"app/provider/database/repo"
 )
 
 type Factory interface {
