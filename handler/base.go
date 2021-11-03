@@ -40,9 +40,11 @@ func WriteResponse(ctx context.Context, w http.ResponseWriter, r *http.Request, 
 
 	if err != nil {
 		if errs, ok := err.(*errors.Errs); ok {
+			w.WriteHeader(errs.Code)
 			res.StatusCode = errs.Code
 			res.ErrorMessage = errs.Error()
 		} else {
+			w.WriteHeader(http.StatusInternalServerError)
 			res.StatusCode = http.StatusInternalServerError
 			res.ErrorMessage = err.Error()
 		}

@@ -6,6 +6,7 @@ import (
 	"app/errors"
 	"context"
 	"net/http"
+	"strings"
 )
 
 type createUser struct {
@@ -24,11 +25,15 @@ func (m *createUser) Execute(ctx context.Context) (interface{}, error) {
 
 //TODO: create wrapper for validate
 func (m *createUser) Validate(ctx context.Context) error {
+	var missingFields []string
 	if m.Req.Name == "" {
-		return errors.New("name is mandatory", http.StatusBadRequest)
+		missingFields = append(missingFields, "name")
 	}
 	if m.Req.Email == "" {
-		return errors.New("email is mandatory", http.StatusBadRequest)
+		missingFields = append(missingFields, "email")
+	}
+	if len(missingFields) != 0 {
+		return errors.New("missing fields: "+strings.Join(missingFields, ", "), http.StatusBadRequest)
 	}
 	return nil
 }

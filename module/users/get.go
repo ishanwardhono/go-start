@@ -22,7 +22,7 @@ func (m *getUser) Execute(ctx context.Context) (interface{}, error) {
 
 func (m *getUser) Validate(ctx context.Context) error {
 	if m.Req == "" {
-		return errors.New("name is not exist", http.StatusBadRequest)
+		return errors.New("missing field name", http.StatusBadRequest)
 	}
 	return nil
 }
