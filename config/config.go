@@ -28,6 +28,7 @@ type Config struct {
 
 	MaxGraceStop int
 	LogFile      string
+	LogLevel     string
 }
 
 func GetConfig() *Config {

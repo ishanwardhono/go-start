@@ -22,7 +22,7 @@ func main() {
 	env.SetEnv(*environment)
 
 	cfg := config.GetConfig()
-	log.Init(cfg.LogFile)
+	log.Init(cfg.LogLevel, cfg.LogFile)
 
 	handlers := provider.GetHandlers()
 	router := mux.NewRouter().StrictSlash(true)

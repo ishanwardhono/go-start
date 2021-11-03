@@ -20,24 +20,36 @@ var (
 	log *logrus.Logger
 )
 
-func Init(fileName string) {
+func Init(level, fileName string) {
 	log = logrus.New()
 	log.SetFormatter(&logrus.JSONFormatter{})
 
-	log.SetLevel(logrus.PanicLevel)
-	log.SetLevel(logrus.FatalLevel)
-	log.SetLevel(logrus.ErrorLevel)
-	log.SetLevel(logrus.WarnLevel)
-	log.SetLevel(logrus.InfoLevel)
-	log.SetLevel(logrus.DebugLevel)
-	log.SetLevel(logrus.InfoLevel)
+	switch level {
+	case "panic":
+		log.SetLevel(logrus.PanicLevel)
+	case "fatal":
+		log.SetLevel(logrus.FatalLevel)
+	case "error":
+		log.SetLevel(logrus.ErrorLevel)
+	case "warning":
+		log.SetLevel(logrus.WarnLevel)
+	case "info":
+		log.SetLevel(logrus.InfoLevel)
+	case "debug", "all":
+		log.SetLevel(logrus.DebugLevel)
+	default:
+		log.SetLevel(logrus.InfoLevel)
+	}
 
 	if fileName == "" {
 		log.Out = os.Stdout
 		return
 	}
+	if strings.Contains(fileName, "%s") {
+		fileName = fmt.Sprintf(fileName, time.Now().Format(timeLayout))
+	}
 
-	file, err := os.OpenFile(fmt.Sprintf(fileName, time.Now().Format(timeLayout)), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	file, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err == nil {
 		log.Out = file
 	} else {
