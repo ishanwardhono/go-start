@@ -31,18 +31,18 @@ func (uh *UserHandler) allUsers(ctx context.Context, w http.ResponseWriter, r *h
 	return uh.user.GetAllUser()
 }
 
-func (uh *UserHandler) newUser(tx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func (uh *UserHandler) newUser(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
 	var req entity.User
 
 	err := ParseBody(r, &req)
 	if err != nil {
-		log.Error("Failed parse request")
+		log.Error(ctx, "Failed parse request")
 		return nil, err
 	}
 
 	return uh.user.InsertUser(req)
 }
 
-func (uh *UserHandler) getUser(tx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func (uh *UserHandler) getUser(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
 	return uh.user.GetUser(GetQueryParam(r, "name"))
 }

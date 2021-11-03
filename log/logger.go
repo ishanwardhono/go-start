@@ -1,6 +1,7 @@
 package log
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"runtime"
@@ -60,73 +61,85 @@ func getFileAndLine() (string, int) {
 }
 
 // Info log
-func Info(args ...interface{}) {
+func Info(ctx context.Context, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Info(args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Info(args...)
 }
 
 // Infof log
-func Infof(format string, args ...interface{}) {
+func Infof(ctx context.Context, format string, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Infof(format, args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Infof(format, args...)
 }
 
 // Print log
-func Print(args ...interface{}) {
+func Print(ctx context.Context, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Info(args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Info(args...)
 }
 
 // Printf log
-func Printf(format string, args ...interface{}) {
+func Printf(ctx context.Context, format string, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Infof(format, args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Infof(format, args...)
 }
 
 // Debug log
-func Debug(args ...interface{}) {
+func Debug(ctx context.Context, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Debug(args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Debug(args...)
 }
 
 // Debugf log
-func Debugf(format string, args ...interface{}) {
+func Debugf(ctx context.Context, format string, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Debugf(format, args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Debugf(format, args...)
 }
 
 // Warn log
-func Warn(args ...interface{}) {
+func Warn(ctx context.Context, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Warn(args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Warn(args...)
 }
 
 // Warnf log
-func Warnf(format string, args ...interface{}) {
+func Warnf(ctx context.Context, format string, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Warnf(format, args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Warnf(format, args...)
 }
 
 // Error log
-func Error(args ...interface{}) {
+func Error(ctx context.Context, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Error(args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Error(args...)
 }
 
 // Errorf log
-func Errorf(format string, args ...interface{}) {
+func Errorf(ctx context.Context, format string, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Errorf(format, args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Errorf(format, args...)
 }
 
 // Fatal log
-func Fatal(args ...interface{}) {
+func Fatal(ctx context.Context, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Fatal(args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Fatal(args...)
 }
 
 // Fatalf log
-func Fatalf(format string, args ...interface{}) {
+func Fatalf(ctx context.Context, format string, args ...interface{}) {
 	file, line := getFileAndLine()
-	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).Fatalf(format, args...)
+	ctxVal := GetCtxContent(ctx)
+	log.WithField("source", fmt.Sprintf("%s:%d", file, line)).WithField("context", ctxVal).Fatalf(format, args...)
 }

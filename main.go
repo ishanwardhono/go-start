@@ -26,6 +26,6 @@ func main() {
 	handler.RegisterHandlers(router)
 	defer database.GetDB().Close()
 
-	log.Info("Server running port " + cfg.AppPort + " on " + env.GetEnv() + " . . . ")
-	log.Fatal(http.ListenAndServe(":"+cfg.AppPort, router))
+	log.Info(nil, "Server running port "+cfg.AppPort+" on "+env.GetEnv()+" . . . ")
+	log.Fatal(nil, http.ListenAndServe(":"+cfg.AppPort, router))
 }

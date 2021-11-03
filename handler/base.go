@@ -19,14 +19,13 @@ type response struct {
 func Handle(f func(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := log.ContextStory(r.Context())
-		//TODO: add context to logger
-		log.Info("Request: ", GetLogRequest(r))
+		log.Info(ctx, "Request: ", GetLogRequest(r))
 		result, err := f(ctx, w, r)
-		WriteResponse(w, r, result, err)
+		WriteResponse(ctx, w, r, result, err)
 	}
 }
 
-func WriteResponse(w http.ResponseWriter, r *http.Request, data interface{}, err error) {
+func WriteResponse(ctx context.Context, w http.ResponseWriter, r *http.Request, data interface{}, err error) {
 	w.Header().Add("Content-Type", "Application/json")
 	res := response{
 		Data:       data,
@@ -41,7 +40,7 @@ func WriteResponse(w http.ResponseWriter, r *http.Request, data interface{}, err
 
 	byteData, err := json.Marshal(res)
 	if err != nil {
-		log.Error("Error marshalling response")
+		log.Error(ctx, "Error marshalling response")
 	}
 	w.Write(byteData)
 }
