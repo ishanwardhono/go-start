@@ -3,8 +3,7 @@ package handler
 import (
 	"app/entity"
 	"app/log"
-	"app/module"
-	"app/provider/database/repo"
+	"app/module/users"
 	"context"
 	"net/http"
 
@@ -12,12 +11,12 @@ import (
 )
 
 type UserHandler struct {
-	user module.UserModel
+	users users.Factory
 }
 
-func NewUserHandler(repo repo.UserRepo) UserHandler {
-	return UserHandler{
-		user: module.NewUserModel(repo),
+func NewUserHandler(users users.Factory) HttpHandler {
+	return &UserHandler{
+		users: users,
 	}
 }
 
@@ -28,7 +27,7 @@ func (uh *UserHandler) RegisterHandlers(router *mux.Router) {
 }
 
 func (uh *UserHandler) allUsers(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
-	return uh.user.GetAllUser()
+	return uh.users.GetAll().Execute(ctx)
 }
 
 func (uh *UserHandler) newUser(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
@@ -40,9 +39,9 @@ func (uh *UserHandler) newUser(ctx context.Context, w http.ResponseWriter, r *ht
 		return nil, err
 	}
 
-	return uh.user.InsertUser(req)
+	return uh.users.Create(req).Execute(ctx)
 }
 
 func (uh *UserHandler) getUser(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
-	return uh.user.GetUser(GetQueryParam(r, "name"))
+	return uh.users.Get(GetQueryParam(r, "name")).Execute(ctx)
 }

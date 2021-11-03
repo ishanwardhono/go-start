@@ -2,11 +2,10 @@ package main
 
 import (
 	"app/env"
-	"app/handler"
 	"app/log"
+	"app/provider"
 	"app/provider/config"
-	"app/provider/database"
-	"app/provider/database/repo"
+	"context"
 	"flag"
 	"net/http"
 
@@ -21,11 +20,12 @@ func main() {
 	cfg := config.GetConfig()
 	log.Init(cfg.LogFile)
 
+	handlers := provider.GetHandlers()
 	router := mux.NewRouter().StrictSlash(true)
-	handler := handler.NewUserHandler(repo.NewUserRepo(database.GetDB()))
-	handler.RegisterHandlers(router)
-	defer database.GetDB().Close()
+	for _, handler := range handlers {
+		handler.RegisterHandlers(router)
+	}
 
-	log.Info(nil, "Server running port "+cfg.AppPort+" on "+env.GetEnv()+" . . . ")
-	log.Fatal(nil, http.ListenAndServe(":"+cfg.AppPort, router))
+	log.Info(context.Background(), "Server running port "+cfg.AppPort+" on "+env.GetEnv()+" . . . ")
+	log.Fatal(context.Background(), http.ListenAndServe(":"+cfg.AppPort, router))
 }

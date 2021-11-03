@@ -10,6 +10,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type HttpHandler interface {
+	RegisterHandlers(router *mux.Router)
+}
+
 type response struct {
 	StatusCode   int
 	Data         interface{}
@@ -18,6 +22,7 @@ type response struct {
 
 func Handle(f func(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		defer r.Body.Close()
 		ctx := log.ContextStory(r.Context())
 		log.Info(ctx, "Request: ", GetLogRequest(r))
 		result, err := f(ctx, w, r)
