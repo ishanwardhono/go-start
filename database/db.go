@@ -2,18 +2,18 @@ package database
 
 import (
 	"app/config"
-	"database/sql"
 	"fmt"
 	"log"
 
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
 var (
-	db *sql.DB
+	db *sqlx.DB
 )
 
-func GetDB() *sql.DB {
+func GetDB() *sqlx.DB {
 	if db == nil {
 		err := NewDB()
 		if err != nil {
@@ -37,9 +37,9 @@ func NewDB() error {
 		dbinfo = fmt.Sprintf("host=%s port=%s dbname=%s sslmode=disable",
 			cfg.DBHost, cfg.DBPort, cfg.DBName)
 	}
-	newDB, err := sql.Open("postgres", dbinfo)
+	newDB, err := sqlx.Connect("postgres", dbinfo)
 	if err != nil {
-		log.Println("database error: ", err)
+		log.Fatalln("database error: ", err)
 		return err
 	}
 	db = newDB

@@ -2,7 +2,8 @@ package repo
 
 import (
 	"app/entity"
-	"database/sql"
+
+	"github.com/jmoiron/sqlx"
 )
 
 type UserRepo interface {
@@ -12,31 +13,23 @@ type UserRepo interface {
 }
 
 type userRepoImpement struct {
-	db *sql.DB
+	db *sqlx.DB
 }
 
-func NewUserRepo(db *sql.DB) UserRepo {
+func NewUserRepo(db *sqlx.DB) UserRepo {
 	return &userRepoImpement{db: db}
 }
 
 func (u *userRepoImpement) InsertUser(user entity.User) error {
-	_, err := u.db.Exec(userInsertQuery, user.Name, user.Email)
+	err := u.db.Get(&user, userInsertQuery)
 	return err
 }
 
 func (u *userRepoImpement) GetAllUser() ([]entity.User, error) {
 	users := make([]entity.User, 0)
-	rows, err := u.db.Query(userGetAllQuery)
+	err := u.db.Select(&users, userGetAllQuery)
 	if err != nil {
 		return nil, err
-	}
-	for rows.Next() {
-		user := entity.User{}
-		err := rows.Scan(&user.ID, &user.Name, &user.Email)
-		if err != nil {
-			return nil, err
-		}
-		users = append(users, user)
 	}
 	return users, nil
 }
@@ -45,7 +38,7 @@ func (u *userRepoImpement) GetUser(name string) (entity.User, error) {
 	var user entity.User
 	err := u.db.QueryRow(userGetQuery, name).Scan(&user.ID, &user.Name, &user.Email)
 	if err != nil {
-		return entity.User{}, nil
+		return entity.User{}, err
 	}
 	return user, nil
 }
