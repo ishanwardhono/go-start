@@ -19,7 +19,11 @@ func (m *createUser) Execute(ctx context.Context) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return "", m.RepoUser.InsertUser(m.Req)
+	err = m.RepoUser.InsertUser(m.Req)
+	if err != nil {
+		return "insert failed", err
+	}
+	return "insert success", nil
 }
 
 func (m *createUser) Validate(ctx context.Context) error {

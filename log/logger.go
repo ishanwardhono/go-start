@@ -20,6 +20,10 @@ var (
 	log *logrus.Logger
 )
 
+func init() {
+	Init("", "")
+}
+
 func Init(level, fileName string) {
 	log = logrus.New()
 	log.SetFormatter(&logrus.JSONFormatter{})
