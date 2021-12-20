@@ -1,7 +1,7 @@
 package users
 
 import (
-	"app/database/repo"
+	"app/database/repo/users"
 	"app/errors"
 	"context"
 	"net/http"
@@ -9,7 +9,7 @@ import (
 
 type getUser struct {
 	Req      string
-	RepoUser repo.UserRepo
+	RepoUser users.UserRepo
 }
 
 func (m *getUser) Execute(ctx context.Context) (interface{}, error) {

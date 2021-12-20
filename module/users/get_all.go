@@ -1,12 +1,12 @@
 package users
 
 import (
-	"app/database/repo"
+	"app/database/repo/users"
 	"context"
 )
 
 type getUsers struct {
-	RepoUser repo.UserRepo
+	RepoUser users.UserRepo
 }
 
 func (m *getUsers) Execute(ctx context.Context) (interface{}, error) {

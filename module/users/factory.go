@@ -1,7 +1,7 @@
 package users
 
 import (
-	"app/database/repo"
+	"app/database/repo/users"
 	"app/entity"
 	"app/module"
 )
@@ -13,10 +13,10 @@ type Factory interface {
 }
 
 type usersFactory struct {
-	repoUser repo.UserRepo
+	repoUser users.UserRepo
 }
 
-func NewUsersFactory(repoUser repo.UserRepo) Factory {
+func NewUsersFactory(repoUser users.UserRepo) Factory {
 	return &usersFactory{
 		repoUser: repoUser,
 	}

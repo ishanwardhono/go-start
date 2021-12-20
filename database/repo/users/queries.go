@@ -1,4 +1,4 @@
-package repo
+package users
 
 const (
 	userInsertQuery = `

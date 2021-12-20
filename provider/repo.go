@@ -2,11 +2,11 @@ package provider
 
 import (
 	"app/database"
-	"app/database/repo"
+	"app/database/repo/users"
 )
 
-func GetUsersRepo() repo.UserRepo {
-	return repo.NewUserRepo(
+func GetUsersRepo() users.UserRepo {
+	return users.NewUserRepo(
 		database.GetDB(),
 	)
 }

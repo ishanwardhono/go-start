@@ -1,7 +1,7 @@
 package users
 
 import (
-	"app/database/repo"
+	"app/database/repo/users"
 	"app/entity"
 	"app/errors"
 	"context"
@@ -11,7 +11,7 @@ import (
 
 type createUser struct {
 	Req      entity.User
-	RepoUser repo.UserRepo
+	RepoUser users.UserRepo
 }
 
 func (m *createUser) Execute(ctx context.Context) (interface{}, error) {
