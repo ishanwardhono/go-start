@@ -3,7 +3,20 @@
 ## How to start
 ### Prerequisites
 - Golang & PostgreSQL installed
-- `users` table with columns `id`, `name`, `email`
+
+### Import Data Schema
+Create a database, then import these to your database
+- import Data Definition
+```sh
+psql [database_name] -f ./database/data/ddl.sql
+```
+- import Data Manipulation
+```sh
+psql [database_name] -f ./database/data/dml.sql
+```
+
+### Set Environment
+Put your database environment in here `./env/env.development.yaml`
 
 ### Install Dependencies
 ```sh
