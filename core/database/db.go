@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -16,11 +17,6 @@ var (
 
 type DB struct {
 	db *sqlx.DB
-}
-
-type IDbEntity interface {
-	Insert(user string)
-	Update(user string)
 }
 
 func GetDB() *DB {
@@ -40,7 +36,7 @@ func GetDB() *DB {
 func NewDB() error {
 	cfg := config.GetConfig()
 	var dbinfo string
-	if cfg.DBName == "" {
+	if cfg.DBUser == "" {
 		dbinfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 			cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 	} else {
@@ -56,6 +52,30 @@ func NewDB() error {
 		db: newDB,
 	}
 	return nil
+}
+
+//Entity Interface
+type IDbEntity interface {
+	Insert(user string)
+	Update(user string)
+}
+
+type DbEntity struct {
+	ID           int       `db:"id"`
+	CreatedBy    string    `db:"created_by"`
+	CreatedTime  time.Time `db:"created_time"`
+	ModifiedBy   string    `db:"modified_by"`
+	ModifiedTime time.Time `db:"modified_time"`
+}
+
+func (e *DbEntity) Insert(user string) {
+	e.CreatedTime = time.Now()
+	e.CreatedBy = user
+}
+
+func (e *DbEntity) Update(user string) {
+	e.ModifiedBy = user
+	e.ModifiedTime = time.Now()
 }
 
 func (i *DB) NamedExec(query string, entity IDbEntity) (sql.Result, error) {
