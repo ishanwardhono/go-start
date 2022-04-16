@@ -1,0 +1,27 @@
+version: '3'
+services:
+  go-app:
+    build: .
+    image: go-simple-rest/go-app
+    command: make run 
+    volumes:
+      - .:/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - psql
+
+  psql:
+    image: postgres:latest
+    volumes:
+      - psql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=goapp
+      - POSTGRES_PASSWORD=goapp_pass
+      - POSTGRES_DB=appdb
+      - DATABASE_HOST=127.0.0.1
+    ports:
+      - 5432
+
+volumes:
+  psql:
