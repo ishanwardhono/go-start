@@ -3,7 +3,7 @@ services:
   go-app:
     build: .
     image: go-simple-rest/go-app
-    command: make run 
+    command: make run-docker
     volumes:
       - .:/app
     ports:

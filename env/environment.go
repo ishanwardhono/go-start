@@ -6,6 +6,7 @@ const (
 	Development = "development"
 	Staging     = "staging"
 	Production  = "production"
+	Docker      = "docker"
 )
 
 var (
