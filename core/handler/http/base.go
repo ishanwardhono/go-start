@@ -12,15 +12,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
+const CONST_RESPONSE_SUCCESS_MESSAGE = "Success"
+
 type HttpHandler interface {
 	RegisterHandlers(router *mux.Router)
 }
 
 type Response struct {
-	StatusCode   int         `json:"status"`
-	Message      string      `json:"message,omitempty"`
-	Data         interface{} `json:"data,omitempty"`
-	ErrorMessage string      `json:"errorMessage,omitempty"`
+	StatusCode int         `json:"status"`
+	Message    string      `json:"message,omitempty"`
+	Data       interface{} `json:"data,omitempty"`
 }
 
 func Handle(f func(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error)) http.HandlerFunc {
@@ -43,17 +44,18 @@ func WriteResponse(ctx context.Context, w http.ResponseWriter, r *http.Request, 
 	} else {
 		res.Data = data
 		res.StatusCode = http.StatusOK
+		res.Message = CONST_RESPONSE_SUCCESS_MESSAGE
 	}
 
 	if err != nil {
 		if errs, ok := err.(*errors.Errs); ok {
 			w.WriteHeader(errs.Code)
 			res.StatusCode = errs.Code
-			res.ErrorMessage = errs.Error()
+			res.Message = errs.Error()
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 			res.StatusCode = http.StatusInternalServerError
-			res.ErrorMessage = err.Error()
+			res.Message = err.Error()
 		}
 	}
 
