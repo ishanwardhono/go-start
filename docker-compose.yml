@@ -8,6 +8,8 @@ services:
     image: goapp-devel:latest
     container_name: go-app-devel
     command: make run-docker
+    volumes:
+      - .:/app
     ports:
       - 8080:8080
     depends_on:
