@@ -1,10 +1,10 @@
--- public.users definition
+-- articles definition
 
 -- Drop table
 
--- DROP TABLE public.users;
+-- DROP TABLE public.articles;
 
-CREATE TABLE public.users (
+CREATE TABLE IF NOT EXISTS articles (
 	id serial4 NOT NULL,
 	title varchar(50) NOT NULL,
 	content text NULL,
@@ -13,6 +13,5 @@ CREATE TABLE public.users (
 	created_by varchar(30),
 	modified_time timestamp,
 	modified_by timestamp,
-	CONSTRAINT users_name_key UNIQUE (name),
-	CONSTRAINT users_pkey PRIMARY KEY (id)
+	CONSTRAINT articles_pkey PRIMARY KEY (id)
 );

@@ -1,19 +1,23 @@
 package repo
 
 const (
+	articleAllColums = `
+		id, title, content, author, created_by, created_time, modified_by, modified_time
+	`
+
 	articleInsertQuery = `
 		INSERT INTO 
-			articles (name, email)
+			articles (title, content, author, created_by, created_time)
 		VALUES
-			( $1, $2 )
+			( :title, :content, :author, :created_by, :created_time )
 	`
 
 	articleGetAllQuery = `
-		SELECT * FROM articles
+		SELECT ` + articleAllColums + ` FROM articles
 	`
 
 	articleGetQuery = `
-		SELECT * FROM articles
+		SELECT ` + articleAllColums + ` FROM articles
 			WHERE name = $1
 	`
 )

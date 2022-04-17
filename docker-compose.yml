@@ -1,8 +1,10 @@
 version: '3'
 services:
   go-app:
-    build: .
+    build: ./.Docker/goapp.Dockerfile
+    restart: unless-stopped
     image: go-simple-rest/go-app
+    container_name: go-app
     command: make run-docker
     volumes:
       - .:/app
@@ -13,13 +15,16 @@ services:
 
   psql:
     image: postgres:latest
+    container_name: postgres
+    restart: always
     volumes:
+      - ./core/database/data/ddl.sql:/docker-entrypoint-initdb.d/10-init.sql
       - psql:/var/lib/postgresql/data
     environment:
-      - "POSTGRES_USER=${POSTGRES_USER}"
-      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
-      - "POSTGRES_DB=${POSTGRES_DB}"
-      - "DATABASE_HOST=${DATABASE_HOST}"
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - DATABASE_HOST=${DATABASE_HOST}
     ports:
       - 5432
 
