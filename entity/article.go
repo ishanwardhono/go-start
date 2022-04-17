@@ -4,7 +4,7 @@ import "app/core/database"
 
 type Article struct {
 	database.DbEntity
-	Title   string `db:"title"`
-	Content string `db:"content"`
-	Author  string `db:"author"`
+	Title   string `json:"title" db:"title"`
+	Content string `json:"content" db:"content"`
+	Author  string `json:"author" db:"author"`
 }

@@ -62,11 +62,11 @@ type IDbEntity interface {
 }
 
 type DbEntity struct {
-	ID           int         `db:"id"`
-	CreatedBy    string      `db:"created_by"`
-	CreatedTime  time.Time   `db:"created_time"`
-	ModifiedBy   null.String `db:"modified_by"`
-	ModifiedTime null.Time   `db:"modified_time"`
+	ID           int         `json:"id" db:"id"`
+	CreatedBy    string      `json:"-" db:"created_by"`
+	CreatedTime  time.Time   `json:"-" db:"created_time"`
+	ModifiedBy   null.String `json:"-" db:"modified_by"`
+	ModifiedTime null.Time   `json:"-" db:"modified_time"`
 }
 
 func (e *DbEntity) Insert(user string) {
