@@ -16,10 +16,10 @@ services:
     volumes:
       - psql:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=goapp
-      - POSTGRES_PASSWORD=goapp_pass
-      - POSTGRES_DB=appdb
-      - DATABASE_HOST=127.0.0.1
+      - "POSTGRES_USER=${POSTGRES_USER}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "POSTGRES_DB=${POSTGRES_DB}"
+      - "DATABASE_HOST=${DATABASE_HOST}"
     ports:
       - 5432
 
