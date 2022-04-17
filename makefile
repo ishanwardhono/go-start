@@ -9,3 +9,6 @@ run-docker:
 
 docker-up:
 	@docker-compose --env-file=./.Docker/.docker.env up -d
+
+docker-image:
+	@docker build -t goapp .
