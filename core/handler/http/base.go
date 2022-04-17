@@ -21,7 +21,7 @@ type HttpHandler interface {
 type Response struct {
 	StatusCode int         `json:"status"`
 	Message    string      `json:"message,omitempty"`
-	Data       interface{} `json:"data,omitempty"`
+	Data       interface{} `json:"data"`
 }
 
 func Handle(f func(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error)) http.HandlerFunc {
