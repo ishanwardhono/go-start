@@ -24,7 +24,7 @@ func NewArticleHandler(articles articles.Factory) http_handler.HttpHandler {
 
 func (uh *ArticleHandler) RegisterHandlers(router *mux.Router) {
 	router.HandleFunc("/articles", http_handler.Handle(uh.allArticles)).Methods("GET")
-	router.HandleFunc("/article/{name}", http_handler.Handle(uh.getArticle)).Methods("GET")
+	router.HandleFunc("/article/{id}", http_handler.Handle(uh.getArticle)).Methods("GET")
 	router.HandleFunc("/article", http_handler.Handle(uh.newArticle)).Methods("POST")
 	router.HandleFunc("/", http_handler.Handle(func(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
 		return "test endpoint", nil

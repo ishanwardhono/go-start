@@ -18,6 +18,6 @@ const (
 
 	articleGetQuery = `
 		SELECT ` + articleAllColums + ` FROM articles
-			WHERE name = $1
+			WHERE id = $1
 	`
 )

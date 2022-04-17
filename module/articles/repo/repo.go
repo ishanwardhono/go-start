@@ -35,7 +35,7 @@ func (u *articleRepoImpement) GetAllArticle() ([]entity.Article, error) {
 
 func (u *articleRepoImpement) GetArticle(id int) (entity.Article, error) {
 	var article entity.Article
-	err := u.db.Select(&article, articleGetQuery, id)
+	err := u.db.Get(&article, articleGetQuery, id)
 	if err != nil {
 		return entity.Article{}, err
 	}

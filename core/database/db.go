@@ -9,6 +9,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"gopkg.in/guregu/null.v3"
 )
 
 var (
@@ -61,11 +62,11 @@ type IDbEntity interface {
 }
 
 type DbEntity struct {
-	ID           int       `db:"id"`
-	CreatedBy    string    `db:"created_by"`
-	CreatedTime  time.Time `db:"created_time"`
-	ModifiedBy   string    `db:"modified_by"`
-	ModifiedTime time.Time `db:"modified_time"`
+	ID           int         `db:"id"`
+	CreatedBy    string      `db:"created_by"`
+	CreatedTime  time.Time   `db:"created_time"`
+	ModifiedBy   null.String `db:"modified_by"`
+	ModifiedTime null.Time   `db:"modified_time"`
 }
 
 func (e *DbEntity) Insert(user string) {
@@ -74,8 +75,8 @@ func (e *DbEntity) Insert(user string) {
 }
 
 func (e *DbEntity) Update(user string) {
-	e.ModifiedBy = user
-	e.ModifiedTime = time.Now()
+	e.ModifiedBy = null.NewString(user, true)
+	e.ModifiedTime = null.NewTime(time.Now(), true)
 }
 
 func (i *DB) NamedExec(query string, entity IDbEntity) (sql.Result, error) {
