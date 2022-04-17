@@ -2,7 +2,7 @@ package database
 
 import (
 	"app/core/config"
-	"database/sql"
+	"context"
 	"fmt"
 	"log"
 	"time"
@@ -79,15 +79,15 @@ func (e *DbEntity) Update(user string) {
 	e.ModifiedTime = null.NewTime(time.Now(), true)
 }
 
-func (i *DB) NamedExec(query string, entity IDbEntity) (sql.Result, error) {
+func (i *DB) NamedQueryContext(ctx context.Context, query string, entity IDbEntity) (*sqlx.Rows, error) {
 	entity.Insert("")
-	return i.db.NamedExec(query, entity)
+	return i.db.NamedQueryContext(ctx, query, entity)
 }
 
-func (i *DB) Get(dest interface{}, query string, args ...interface{}) error {
-	return i.db.Get(dest, query, args...)
+func (i *DB) GetContext(ctx context.Context, dest interface{}, query string, args ...interface{}) error {
+	return i.db.GetContext(ctx, dest, query, args...)
 }
 
-func (i *DB) Select(dest interface{}, query string, args ...interface{}) error {
-	return i.db.Select(dest, query, args...)
+func (i *DB) SelectContext(ctx context.Context, dest interface{}, query string, args ...interface{}) error {
+	return i.db.SelectContext(ctx, dest, query, args...)
 }

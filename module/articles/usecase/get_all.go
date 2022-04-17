@@ -11,7 +11,7 @@ type getArticles struct {
 
 func (m *getArticles) Execute(ctx context.Context) (interface{}, error) {
 	m.Validate(ctx)
-	return m.RepoArticle.GetAllArticle()
+	return m.RepoArticle.GetAllArticle(ctx)
 }
 
 func (m *getArticles) Validate(ctx context.Context) error {

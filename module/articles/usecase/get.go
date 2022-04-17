@@ -17,7 +17,7 @@ func (m *getArticle) Execute(ctx context.Context) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return m.RepoArticle.GetArticle(m.Req)
+	return m.RepoArticle.GetArticle(ctx, m.Req)
 }
 
 func (m *getArticle) Validate(ctx context.Context) error {

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"app/core/errors"
+	handler_http "app/core/handler/http"
 	"app/entity"
 	"app/module/articles/repo"
 	"context"
@@ -19,11 +20,15 @@ func (m *createArticle) Execute(ctx context.Context) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = m.RepoArticle.InsertArticle(m.Req)
+	id, err := m.RepoArticle.InsertArticle(ctx, m.Req)
 	if err != nil {
 		return "insert failed", err
 	}
-	return "insert success", nil
+	return handler_http.Response{
+		StatusCode: http.StatusCreated,
+		Message:    "Success",
+		Data:       id,
+	}, nil
 }
 
 func (m *createArticle) Validate(ctx context.Context) error {

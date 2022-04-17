@@ -3,12 +3,13 @@ package repo
 import (
 	"app/core/database"
 	"app/entity"
+	"context"
 )
 
 type ArticleRepo interface {
-	InsertArticle(article entity.Article) error
-	GetAllArticle() ([]entity.Article, error)
-	GetArticle(id int) (entity.Article, error)
+	InsertArticle(ctx context.Context, article entity.Article) (int, error)
+	GetAllArticle(ctx context.Context) ([]entity.Article, error)
+	GetArticle(ctx context.Context, id int) (entity.Article, error)
 }
 
 type articleRepoImpement struct {
@@ -19,23 +20,26 @@ func NewArticleRepo(db *database.DB) ArticleRepo {
 	return &articleRepoImpement{db: db}
 }
 
-func (u *articleRepoImpement) InsertArticle(article entity.Article) error {
-	_, err := u.db.NamedExec(articleInsertQuery, &article)
-	return err
+func (u *articleRepoImpement) InsertArticle(ctx context.Context, article entity.Article) (int, error) {
+	var id int
+	rows, err := u.db.NamedQueryContext(ctx, articleInsertQuery, &article)
+	rows.Next()
+	rows.Scan(&id)
+	return id, err
 }
 
-func (u *articleRepoImpement) GetAllArticle() ([]entity.Article, error) {
+func (u *articleRepoImpement) GetAllArticle(ctx context.Context) ([]entity.Article, error) {
 	articles := make([]entity.Article, 0)
-	err := u.db.Select(&articles, articleGetAllQuery)
+	err := u.db.SelectContext(ctx, &articles, articleGetAllQuery)
 	if err != nil {
 		return nil, err
 	}
 	return articles, nil
 }
 
-func (u *articleRepoImpement) GetArticle(id int) (entity.Article, error) {
+func (u *articleRepoImpement) GetArticle(ctx context.Context, id int) (entity.Article, error) {
 	var article entity.Article
-	err := u.db.Get(&article, articleGetQuery, id)
+	err := u.db.GetContext(ctx, &article, articleGetQuery, id)
 	if err != nil {
 		return entity.Article{}, err
 	}

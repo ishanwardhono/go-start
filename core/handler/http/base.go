@@ -16,8 +16,9 @@ type HttpHandler interface {
 	RegisterHandlers(router *mux.Router)
 }
 
-type response struct {
-	StatusCode   int         `json:"statusCode"`
+type Response struct {
+	StatusCode   int         `json:"status"`
+	Message      string      `json:"message,omitempty"`
 	Data         interface{} `json:"data,omitempty"`
 	ErrorMessage string      `json:"errorMessage,omitempty"`
 }
@@ -35,9 +36,13 @@ func Handle(f func(ctx context.Context, w http.ResponseWriter, r *http.Request) 
 
 func WriteResponse(ctx context.Context, w http.ResponseWriter, r *http.Request, data interface{}, err error, startTime time.Time) {
 	w.Header().Add("Content-Type", "Application/json")
-	res := response{
-		Data:       data,
-		StatusCode: http.StatusOK,
+	var res Response
+
+	if customResponse, ok := data.(Response); ok {
+		res = customResponse
+	} else {
+		res.Data = data
+		res.StatusCode = http.StatusOK
 	}
 
 	if err != nil {

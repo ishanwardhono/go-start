@@ -10,6 +10,7 @@ const (
 			articles (title, content, author, created_by, created_time)
 		VALUES
 			( :title, :content, :author, :created_by, :created_time )
+		RETURNING id
 	`
 
 	articleGetAllQuery = `
