@@ -1,25 +1,25 @@
 version: '3'
 services:
   go-app:
-    build: ./.Docker/goapp.Dockerfile
+    build:
+      context: .
+      dockerfile: ./.Docker/goapp.Dockerfile
     restart: unless-stopped
-    image: go-simple-rest/go-app
-    container_name: go-app
+    image: goapp-devel:latest
+    container_name: go-app-devel
     command: make run-docker
-    volumes:
-      - .:/app
     ports:
       - 8080:8080
     depends_on:
-      - psql
+      - postgres
 
-  psql:
+  postgres:
     image: postgres:latest
     container_name: postgres
     restart: always
     volumes:
       - ./core/database/data/ddl.sql:/docker-entrypoint-initdb.d/10-init.sql
-      - psql:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -29,4 +29,4 @@ services:
       - 5432
 
 volumes:
-  psql:
+  postgres:

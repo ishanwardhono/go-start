@@ -9,6 +9,3 @@ run-docker:
 
 docker-up:
 	@docker-compose --env-file=./.Docker/.docker.env up -d
-
-docker-down:
-	@docker-compose down
