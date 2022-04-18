@@ -27,7 +27,9 @@ func (m *createArticle) Execute(ctx context.Context) (interface{}, error) {
 	return handler_http.Response{
 		StatusCode: http.StatusCreated,
 		Message:    "Success",
-		Data:       id,
+		Data: map[string]interface{}{
+			"id": id,
+		},
 	}, nil
 }
 

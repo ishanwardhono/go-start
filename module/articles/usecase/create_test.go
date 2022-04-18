@@ -1,24 +1,26 @@
 package usecase
 
 import (
+	corehttp "app/core/handler/http"
 	"app/entity"
-	"app/mock/database/repo/users"
+	"app/test/mock/module/articles/repo"
 	"context"
 	"errors"
+	"net/http"
 	"reflect"
 	"testing"
 
 	"github.com/golang/mock/gomock"
 )
 
-func Test_createUser_Execute(t *testing.T) {
+func Test_createArticle_Execute(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	mockUserRepo := users.NewMockUserRepo(ctrl)
+	mockArticleRepo := repo.NewMockArticleRepo(ctrl)
 
 	tests := []struct {
 		name    string
-		req     entity.User
+		req     entity.Article
 		mock    func()
 		want    interface{}
 		wantErr bool
@@ -29,26 +31,34 @@ func Test_createUser_Execute(t *testing.T) {
 		},
 		{
 			name: "failed execute repo",
-			req: entity.User{
-				Name:  "ishan",
-				Email: "ishan@mail . com",
+			req: entity.Article{
+				Title:   "test title",
+				Content: "test article content",
+				Author:  "test author",
 			},
 			mock: func() {
-				mockUserRepo.EXPECT().InsertUser(gomock.Any()).Return(errors.New("error execute repo"))
+				mockArticleRepo.EXPECT().InsertArticle(gomock.Any(), gomock.Any()).Return(0, errors.New("error execute repo"))
 			},
 			want:    "insert failed",
 			wantErr: true,
 		},
 		{
 			name: "success",
-			req: entity.User{
-				Name:  "ishan",
-				Email: "ishan@mail . com",
+			req: entity.Article{
+				Title:   "test title",
+				Content: "test article content",
+				Author:  "test author",
 			},
 			mock: func() {
-				mockUserRepo.EXPECT().InsertUser(gomock.Any()).Return(nil)
+				mockArticleRepo.EXPECT().InsertArticle(gomock.Any(), gomock.Any()).Return(1, nil)
 			},
-			want: "insert success",
+			want: corehttp.Response{
+				StatusCode: http.StatusCreated,
+				Message:    "Success",
+				Data: map[string]interface{}{
+					"id": 1,
+				},
+			},
 		},
 	}
 	for _, tt := range tests {
@@ -56,17 +66,17 @@ func Test_createUser_Execute(t *testing.T) {
 			if tt.mock != nil {
 				tt.mock()
 			}
-			m := &createUser{
-				Req:      tt.req,
-				RepoUser: mockUserRepo,
+			m := &createArticle{
+				Req:         tt.req,
+				RepoArticle: mockArticleRepo,
 			}
 			got, err := m.Execute(context.Background())
 			if (err != nil) != tt.wantErr {
-				t.Errorf("createUser.Execute() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("createArticle.Execute() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("createUser.Execute() = %v, want %v", got, tt.want)
+				t.Errorf("createArticle.Execute() = %v, want %v", got, tt.want)
 			}
 		})
 	}
