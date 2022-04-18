@@ -4,7 +4,7 @@ import (
 	http_handler "app/core/handler/http"
 	"app/core/log"
 	"app/entity"
-	articles "app/module/articles/usecase"
+	articles "app/module/articles/business"
 	"context"
 	"net/http"
 	"strconv"
