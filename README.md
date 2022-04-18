@@ -4,15 +4,26 @@
 ### Prerequisites
 - Golang & PostgreSQL installed
 
+Or
+- Docker installed
+
+### Docker
+If you prefer to run with docker on your local, you can use this command
+```sh
+make docker-up
+```
+Your local is good to go (can skip the later part)
+
+You can build production image (use production environment)
+```sh
+docker build -t {image_name} .
+```
+
 ### Import Data Schema
 Create a database, then import these to your database
 - import Data Definition
 ```sh
-psql [database_name] -f ./database/data/ddl.sql
-```
-- import Data Manipulation
-```sh
-psql [database_name] -f ./database/data/dml.sql
+psql [database_name] -f ./core/database/data/ddl.sql
 ```
 
 ### Set Environment
