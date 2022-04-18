@@ -1,12 +1,12 @@
 version: '3'
 services:
-  go-app:
+  go-app-local:
     build:
       context: .
-      dockerfile: ./.Docker/goapp.Dockerfile
+      dockerfile: ./.Docker/local.Dockerfile
     restart: unless-stopped
-    image: goapp-devel:latest
-    container_name: go-app-devel
+    image: goapp-local:latest
+    container_name: go-app-local
     command: make run-docker
     volumes:
       - .:/app
