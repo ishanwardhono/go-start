@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"app/entity"
+	"app/module/articles/model"
 	"app/test/mock/module/articles/repo"
 	"context"
 	"reflect"
@@ -18,14 +18,14 @@ func Test_getArticles_Execute(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		req     entity.Article
+		req     model.Article
 		mock    func()
 		want    interface{}
 		wantErr bool
 	}{
 		{
 			name: "success",
-			req: entity.Article{
+			req: model.Article{
 				Title:   "test title",
 				Content: "test article content",
 				Author:  "test author",

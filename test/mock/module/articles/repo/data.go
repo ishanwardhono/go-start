@@ -1,8 +1,8 @@
 package repo
 
-import "app/entity"
+import "app/module/articles/model"
 
-var mockData = []entity.Article{
+var mockData = []model.Article{
 	{
 		Title:   "test title 1",
 		Content: "test article content 1",
@@ -15,6 +15,6 @@ var mockData = []entity.Article{
 	},
 }
 
-func GetMockData() []entity.Article {
+func GetMockData() []model.Article {
 	return mockData
 }

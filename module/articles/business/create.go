@@ -3,7 +3,7 @@ package usecase
 import (
 	"app/core/errors"
 	handler_http "app/core/handler/http"
-	"app/entity"
+	"app/module/articles/model"
 	"app/module/articles/repo"
 	"context"
 	"net/http"
@@ -11,7 +11,7 @@ import (
 )
 
 type createArticle struct {
-	Req         entity.Article
+	Req         model.Article
 	RepoArticle repo.ArticleRepo
 }
 

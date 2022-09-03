@@ -1,13 +1,13 @@
 package usecase
 
 import (
-	"app/entity"
 	"app/module"
+	"app/module/articles/model"
 	"app/module/articles/repo"
 )
 
 type Factory interface {
-	Create(req entity.Article) module.BaseModule
+	Create(req model.Article) module.BaseModule
 	Get(id int) module.BaseModule
 	GetAll() module.BaseModule
 }
@@ -22,7 +22,7 @@ func NewArticlesFactory(repoArticle repo.ArticleRepo) Factory {
 	}
 }
 
-func (f *articlesFactory) Create(req entity.Article) module.BaseModule {
+func (f *articlesFactory) Create(req model.Article) module.BaseModule {
 	return &createArticle{
 		Req:         req,
 		RepoArticle: f.repoArticle,

@@ -2,7 +2,7 @@ package usecase
 
 import (
 	corehttp "app/core/handler/http"
-	"app/entity"
+	"app/module/articles/model"
 	"app/test/mock/module/articles/repo"
 	"context"
 	"errors"
@@ -20,7 +20,7 @@ func Test_createArticle_Execute(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		req     entity.Article
+		req     model.Article
 		mock    func()
 		want    interface{}
 		wantErr bool
@@ -31,7 +31,7 @@ func Test_createArticle_Execute(t *testing.T) {
 		},
 		{
 			name: "failed execute repo",
-			req: entity.Article{
+			req: model.Article{
 				Title:   "test title",
 				Content: "test article content",
 				Author:  "test author",
@@ -44,7 +44,7 @@ func Test_createArticle_Execute(t *testing.T) {
 		},
 		{
 			name: "success",
-			req: entity.Article{
+			req: model.Article{
 				Title:   "test title",
 				Content: "test article content",
 				Author:  "test author",

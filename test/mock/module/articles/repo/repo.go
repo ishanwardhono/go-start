@@ -5,7 +5,7 @@
 package repo
 
 import (
-	entity "app/entity"
+	"app/module/articles/model"
 	context "context"
 	reflect "reflect"
 
@@ -36,10 +36,10 @@ func (m *MockArticleRepo) EXPECT() *MockArticleRepoMockRecorder {
 }
 
 // GetAllArticle mocks base method.
-func (m *MockArticleRepo) GetAllArticle(ctx context.Context) ([]entity.Article, error) {
+func (m *MockArticleRepo) GetAllArticle(ctx context.Context) ([]model.Article, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAllArticle", ctx)
-	ret0, _ := ret[0].([]entity.Article)
+	ret0, _ := ret[0].([]model.Article)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -51,10 +51,10 @@ func (mr *MockArticleRepoMockRecorder) GetAllArticle(ctx interface{}) *gomock.Ca
 }
 
 // GetArticle mocks base method.
-func (m *MockArticleRepo) GetArticle(ctx context.Context, id int) (entity.Article, error) {
+func (m *MockArticleRepo) GetArticle(ctx context.Context, id int) (model.Article, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetArticle", ctx, id)
-	ret0, _ := ret[0].(entity.Article)
+	ret0, _ := ret[0].(model.Article)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -66,7 +66,7 @@ func (mr *MockArticleRepoMockRecorder) GetArticle(ctx, id interface{}) *gomock.C
 }
 
 // InsertArticle mocks base method.
-func (m *MockArticleRepo) InsertArticle(ctx context.Context, article entity.Article) (int, error) {
+func (m *MockArticleRepo) InsertArticle(ctx context.Context, article model.Article) (int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "InsertArticle", ctx, article)
 	ret0, _ := ret[0].(int)

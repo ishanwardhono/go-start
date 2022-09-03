@@ -3,8 +3,8 @@ package handler
 import (
 	http_handler "app/core/handler/http"
 	"app/core/log"
-	"app/entity"
 	articles "app/module/articles/business"
+	"app/module/articles/model"
 	"context"
 	"net/http"
 	"strconv"
@@ -36,7 +36,7 @@ func (uh *ArticleHandler) allArticles(ctx context.Context, w http.ResponseWriter
 }
 
 func (uh *ArticleHandler) newArticle(ctx context.Context, w http.ResponseWriter, r *http.Request) (interface{}, error) {
-	var req entity.Article
+	var req model.Article
 
 	err := http_handler.ParseBody(r, &req)
 	if err != nil {

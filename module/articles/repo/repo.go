@@ -2,14 +2,14 @@ package repo
 
 import (
 	"app/core/database"
-	"app/entity"
+	"app/module/articles/model"
 	"context"
 )
 
 type ArticleRepo interface {
-	InsertArticle(ctx context.Context, article entity.Article) (int, error)
-	GetAllArticle(ctx context.Context) ([]entity.Article, error)
-	GetArticle(ctx context.Context, id int) (entity.Article, error)
+	InsertArticle(ctx context.Context, article model.Article) (int, error)
+	GetAllArticle(ctx context.Context) ([]model.Article, error)
+	GetArticle(ctx context.Context, id int) (model.Article, error)
 }
 
 type articleRepoImpement struct {
@@ -20,7 +20,7 @@ func NewArticleRepo(db *database.DB) ArticleRepo {
 	return &articleRepoImpement{db: db}
 }
 
-func (u *articleRepoImpement) InsertArticle(ctx context.Context, article entity.Article) (int, error) {
+func (u *articleRepoImpement) InsertArticle(ctx context.Context, article model.Article) (int, error) {
 	var id int
 	rows, err := u.db.NamedQueryContext(ctx, articleInsertQuery, &article)
 	rows.Next()
@@ -28,8 +28,8 @@ func (u *articleRepoImpement) InsertArticle(ctx context.Context, article entity.
 	return id, err
 }
 
-func (u *articleRepoImpement) GetAllArticle(ctx context.Context) ([]entity.Article, error) {
-	articles := make([]entity.Article, 0)
+func (u *articleRepoImpement) GetAllArticle(ctx context.Context) ([]model.Article, error) {
+	articles := make([]model.Article, 0)
 	err := u.db.SelectContext(ctx, &articles, articleGetAllQuery)
 	if err != nil {
 		return nil, err
@@ -37,11 +37,11 @@ func (u *articleRepoImpement) GetAllArticle(ctx context.Context) ([]entity.Artic
 	return articles, nil
 }
 
-func (u *articleRepoImpement) GetArticle(ctx context.Context, id int) (entity.Article, error) {
-	var article entity.Article
+func (u *articleRepoImpement) GetArticle(ctx context.Context, id int) (model.Article, error) {
+	var article model.Article
 	err := u.db.GetContext(ctx, &article, articleGetQuery, id)
 	if err != nil {
-		return entity.Article{}, err
+		return model.Article{}, err
 	}
 	return article, nil
 }
