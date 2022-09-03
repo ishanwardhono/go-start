@@ -1,4 +1,4 @@
-package handler
+package http
 
 import (
 	http_handler "app/core/handler/http"

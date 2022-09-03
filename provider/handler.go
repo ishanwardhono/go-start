@@ -2,7 +2,7 @@ package provider
 
 import (
 	"app/core/handler/http"
-	articles "app/module/articles/handler"
+	articles "app/module/articles/handler/http"
 )
 
 //list of handlers
