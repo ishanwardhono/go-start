@@ -5,15 +5,15 @@ import (
 	articles "app/module/articles/handler"
 )
 
-//list of handlers
-func GetHandlers() []http.HttpHandler {
+// list of handlers
+func GetHttpHandlers() []http.HttpHandler {
 	return []http.HttpHandler{
-		GetArticleHandler(),
+		getArticleHandler(),
 	}
 }
 
-//create handler instance
-func GetArticleHandler() http.HttpHandler {
+// create handler instance
+func getArticleHandler() http.HttpHandler {
 	return articles.NewArticleHandler(
 		GetArticleFactory(),
 	)
