@@ -12,3 +12,6 @@ docker-up:
 
 docker-image:
 	@docker build -t goapp .
+
+proto-gen:
+	@protoc module/articles/handler/grpc/*.proto --proto_path=. --go_out=. --go-grpc_out=.
