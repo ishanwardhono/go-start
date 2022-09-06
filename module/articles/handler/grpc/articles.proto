@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "module/articles/handler/grpc";
+
+service ArticlesGrpc {
+    rpc GetAll(GetAllRequest) returns (GetAllResponse) {}
+}
+
+message Article {
+    string title = 1;
+    string content = 2;
+    string author = 3;
+}
+
+message GetAllRequest {}
+
+message GetAllResponse {
+    repeated Article articles = 1;
+}
