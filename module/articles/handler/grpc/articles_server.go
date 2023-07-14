@@ -15,8 +15,8 @@ func (g articleGrpc) GetAll(context.Context, *GetAllRequest) (*GetAllResponse, e
 		Articles: []*Article{
 			{
 				Title:   "Hallo",
-				Content: "Anjengg",
-				Author:  "Babii",
+				Content: "testt",
+				Author:  "tess2",
 			},
 		},
 	}, nil
